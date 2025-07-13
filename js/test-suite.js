@@ -1,0 +1,418 @@
+/**
+ * MYSEC-PM & MYSEC-PM-Mol Calculator Test Suite
+ * 
+ * This file contains comprehensive tests for the calculator functions.
+ * It can be run independently or included in the test HTML page.
+ */
+
+// Test cases data
+const testCases = [
+    {
+        id: 1,
+        name: "Low Risk (Both Models)",
+                        inputs: {
+                    age: 45,
+                    cs: false,
+                    hb: false,
+                    plt: false,
+                    blasts: false,
+                    calr: false,
+                    asxl1: false,
+                    uts: false
+                },
+        expected: {
+            pmScore: 6.75,
+            pmRisk: "Low risk (< 11), median survival NR",
+            pmOS: "Not reached (low)",
+            pmMolScore: 11.25,
+            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
+            pmMolOS: "14.5"
+        }
+    },
+    {
+        id: 2,
+        name: "High Risk (Both Models)",
+                        inputs: {
+                    age: 80,
+                    cs: true,
+                    hb: true,
+                    plt: true,
+                    blasts: true,
+                    calr: true,
+                    asxl1: true,
+                    uts: true
+                },
+        expected: {
+            pmScore: 20,
+            pmRisk: "High risk (≥ 16), median survival 2.0 years",
+            pmOS: "2 (high risk)",
+            pmMolScore: 34,
+            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
+            pmMolOS: "1.8"
+        }
+    },
+    {
+        id: 3,
+        name: "Low Risk (Both Models)",
+                        inputs: {
+                    age: 60,
+                    cs: true,
+                    hb: false,
+                    plt: false,
+                    blasts: false,
+                    calr: false,
+                    asxl1: false,
+                    uts: false
+                },
+        expected: {
+            pmScore: 10,
+            pmRisk: "Low risk (< 11), median survival NR",
+            pmOS: "Not reached (low)",
+            pmMolScore: 16,
+            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
+            pmMolOS: "14.5"
+        }
+    },
+    {
+        id: 4,
+        name: "High Risk (PM), Intermediate-2 (Mol)",
+                        inputs: {
+                    age: 68,
+                    cs: true,
+                    hb: true,
+                    plt: false,
+                    blasts: true,
+                    calr: true,
+                    asxl1: false,
+                    uts: false
+                },
+        expected: {
+            pmScore: 17.2,
+            pmRisk: "High risk (≥ 16), median survival 2.0 years",
+            pmOS: "2 (high risk)",
+            pmMolScore: 23,
+            pmMolRisk: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years",
+            pmMolOS: "4.2"
+        }
+    },
+    {
+        id: 5,
+        name: "High Risk (PM), Not Calculable (Mol)",
+                        inputs: {
+                    age: 50,
+                    cs: true,
+                    hb: true,
+                    plt: true,
+                    blasts: true,
+                    calr: true,
+                    asxl1: NaN,
+                    uts: NaN
+                },
+        expected: {
+            pmScore: 15.5,
+            pmRisk: "High risk (≥ 16), median survival 2.0 years",
+            pmOS: "2 (high risk)",
+            pmMolScore: NaN,
+            pmMolRisk: "Can't be calculated (MISSING VALUES)",
+            pmMolOS: "Can't be calculated (MISSING VALUES)"
+        }
+    },
+    {
+        id: 6,
+        name: "Intermediate-1 (PM), Not Calculable (Mol)",
+                        inputs: {
+                    age: 55,
+                    cs: true,
+                    hb: true,
+                    plt: false,
+                    blasts: false,
+                    calr: true,
+                    asxl1: NaN,
+                    uts: NaN
+                },
+        expected: {
+            pmScore: 13.25,
+            pmRisk: "Intermediate-1 risk (11-13), median survival 9.3 years",
+            pmOS: "9.3 (int 1)",
+            pmMolScore: NaN,
+            pmMolRisk: "Can't be calculated (MISSING VALUES)",
+            pmMolOS: "Can't be calculated (MISSING VALUES)"
+        }
+    },
+    {
+        id: 7,
+        name: "Not Calculable (PM), High Risk (Mol)",
+                        inputs: {
+                    age: 70,
+                    cs: true,
+                    hb: false,
+                    plt: true,
+                    blasts: true,
+                    calr: NaN,
+                    asxl1: false,
+                    uts: false
+                },
+        expected: {
+            pmScore: NaN,
+            pmRisk: "Can't be calculated (MISSING VALUES)",
+            pmOS: "Can't be calculated (MISSING VALUES)",
+            pmMolScore: 24.5,
+            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
+            pmMolOS: "1.8"
+        }
+    },
+    {
+        id: 8,
+        name: "Intermediate-2 (PM), High Risk (Mol)",
+                        inputs: {
+                    age: 52,
+                    cs: false,
+                    hb: true,
+                    plt: true,
+                    blasts: true,
+                    calr: true,
+                    asxl1: false,
+                    uts: true
+                },
+        expected: {
+            pmScore: 14.8,
+            pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
+            pmOS: "4.4 (int 2)",
+            pmMolScore: 25,
+            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
+            pmMolOS: "1.8"
+        }
+    },
+    {
+        id: 9,
+        name: "Not Calculable (Both)",
+                        inputs: {
+                    age: 65,
+                    cs: true,
+                    hb: true,
+                    plt: true,
+                    blasts: NaN,
+                    calr: true,
+                    asxl1: true,
+                    uts: true
+                },
+        expected: {
+            pmScore: NaN,
+            pmRisk: "Can't be calculated (MISSING VALUES)",
+            pmOS: "Can't be calculated (MISSING VALUES)",
+            pmMolScore: NaN,
+            pmMolRisk: "Can't be calculated (MISSING VALUES)",
+            pmMolOS: "Can't be calculated (MISSING VALUES)"
+        }
+    },
+    {
+        id: 10,
+        name: "Low Risk (Both Models)",
+                        inputs: {
+                    age: 40,
+                    cs: false,
+                    hb: false,
+                    plt: false,
+                    blasts: false,
+                    calr: false,
+                    asxl1: false,
+                    uts: false
+                },
+        expected: {
+            pmScore: 6.0,
+            pmRisk: "Low risk (< 11), median survival NR",
+            pmOS: "Not reached (low)",
+            pmMolScore: 10.0,
+            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
+            pmMolOS: "14.5"
+        }
+    }
+];
+
+// Helper function to calculate expected scores manually
+function calculateExpectedPMScore(age, cs, hb, plt, blasts, calr) {
+    // Check for missing values first
+    if (isNaN(cs) || isNaN(hb) || isNaN(plt) || isNaN(blasts) || isNaN(calr)) {
+        return NaN;
+    }
+    
+    let score = 0;
+    if (age !== "" && !isNaN(age)) {
+        score += parseFloat(age) * 0.15;
+    }
+    if (cs === true) score += 1;
+    if (hb === true) score += 2;
+    if (plt === true) score += 1;
+    if (blasts === true) score += 2;
+    if (calr === true) score += 2;
+    return score;
+}
+
+function calculateExpectedPMMolScore(age, cs, hb, plt, blasts, calr, asxl1, uts) {
+    // Check for missing values first
+    if (isNaN(asxl1) || isNaN(uts)) {
+        return NaN;
+    }
+    
+    let score = 0;
+    if (age !== "" && !isNaN(age)) {
+        score += parseFloat(age) * 0.25;
+    }
+    if (cs === true) score += 1;
+    if (hb === true) score += 2;
+    if (plt === true) score += 3;
+    if (blasts === true) score += 3;
+    if (asxl1 === true) score += 1;
+    if (uts === true) score += 4;
+    return score;
+}
+
+// Function to run a single test
+function runTest(testCase) {
+    const { inputs, expected } = testCase;
+    
+    // Calculate actual results
+    const pmResult = calculateMysecPmScore(
+        inputs.age.toString(),
+        inputs.cs,        // constitutionalSymptoms
+        inputs.hb,        // hemoglobinLow
+        inputs.plt,       // plateletsLow
+        inputs.blasts,    // blastsHigh
+        inputs.calr       // calrWildtype
+    );
+    
+    const pmMolResult = calculateMysecPmMolScore(
+        inputs.age.toString(),
+        inputs.cs,        // constitutionalSymptoms
+        inputs.hb,        // hemoglobinLow
+        inputs.plt,       // plateletsLow
+        inputs.blasts,    // blastsHigh
+        inputs.calr,      // calrWildtype
+        inputs.asxl1,     // asxl1Mutated
+        inputs.uts        // utsMutations
+    );
+    
+    // Calculate expected scores manually for comparison
+    const expectedPMScore = calculateExpectedPMScore(
+        inputs.age, inputs.cs, inputs.hb, inputs.plt, inputs.blasts, inputs.calr
+    );
+    
+    const expectedPMMolScore = calculateExpectedPMMolScore(
+        inputs.age, inputs.cs, inputs.hb, inputs.plt, inputs.blasts, inputs.calr, inputs.asxl1, inputs.uts
+    );
+    
+    // Check if results match expected values
+    const pmRiskMatch = pmResult.riskCategory === expected.pmRisk;
+    const pmOSMatch = pmResult.medianOS === expected.pmOS;
+    const pmMolRiskMatch = pmMolResult.riskCategory === expected.pmMolRisk;
+    const pmMolOSMatch = pmMolResult.medianOS === expected.pmMolOS;
+    
+    const testPassed = pmRiskMatch && pmOSMatch && pmMolRiskMatch && pmMolOSMatch;
+    
+    return {
+        testCase,
+        actual: {
+            pm: pmResult,
+            pmMol: pmMolResult,
+            pmScore: expectedPMScore,
+            pmMolScore: expectedPMMolScore
+        },
+        expected,
+        passed: testPassed,
+        details: {
+            pmRiskMatch,
+            pmOSMatch,
+            pmMolRiskMatch,
+            pmMolOSMatch
+        }
+    };
+}
+
+// Function to run all tests and return results
+function runAllTests() {
+    const results = [];
+    let passedCount = 0;
+    let failedCount = 0;
+    
+    testCases.forEach(testCase => {
+        const testResult = runTest(testCase);
+        results.push(testResult);
+        
+        if (testResult.passed) {
+            passedCount++;
+        } else {
+            failedCount++;
+        }
+    });
+    
+    return {
+        results,
+        summary: {
+            total: testCases.length,
+            passed: passedCount,
+            failed: failedCount,
+            passRate: ((passedCount / testCases.length) * 100).toFixed(1)
+        }
+    };
+}
+
+// Function to print test results to console
+function printTestResults() {
+    console.log('🧪 MYSEC-PM & MYSEC-PM-Mol Calculator Test Suite');
+    console.log('=' .repeat(60));
+    
+    const testResults = runAllTests();
+    const { results, summary } = testResults;
+    
+    results.forEach(result => {
+        const status = result.passed ? '✅ PASS' : '❌ FAIL';
+        console.log(`\n${status} Test Case ${result.testCase.id}: ${result.testCase.name}`);
+        
+        if (!result.passed) {
+            console.log('  Expected vs Actual:');
+            console.log(`    MYSEC-PM Risk: "${result.expected.pmRisk}" vs "${result.actual.pm.riskCategory}"`);
+            console.log(`    MYSEC-PM OS: "${result.expected.pmOS}" vs "${result.actual.pm.medianOS}"`);
+            console.log(`    MYSEC-PM-Mol Risk: "${result.expected.pmMolRisk}" vs "${result.actual.pmMol.riskCategory}"`);
+            console.log(`    MYSEC-PM-Mol OS: "${result.expected.pmMolOS}" vs "${result.actual.pmMol.medianOS}"`);
+        }
+        
+        console.log(`  Scores: PM=${result.actual.pmScore.toFixed(2)}, PM-Mol=${result.actual.pmMolScore.toFixed(2)}`);
+    });
+    
+    console.log('\n' + '=' .repeat(60));
+    console.log(`📊 Test Summary:`);
+    console.log(`   Total Tests: ${summary.total}`);
+    console.log(`   Passed: ${summary.passed}`);
+    console.log(`   Failed: ${summary.failed}`);
+    console.log(`   Pass Rate: ${summary.passRate}%`);
+    
+    if (summary.failed === 0) {
+        console.log('\n🎉 All tests passed! The calculator is working correctly.');
+    } else {
+        console.log('\n⚠️  Some tests failed. Please check the implementation.');
+    }
+    
+    return testResults;
+}
+
+// Export functions for use in other modules
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        testCases,
+        runTest,
+        runAllTests,
+        printTestResults,
+        calculateExpectedPMScore,
+        calculateExpectedPMMolScore
+    };
+}
+
+// Auto-run tests if this script is loaded in a browser environment
+if (typeof window !== 'undefined' && typeof calculateMysecPmScore !== 'undefined') {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', printTestResults);
+    } else {
+        printTestResults();
+    }
+} 

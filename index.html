@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+  
+<head>
+    <link rel="icon" type="image/png" href="/imgs/icons/favicon.png">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Calculate MYSEC-PM-Mol prognostic scores with our easy-to-use calculator. Get accurate risk assessments for myelofibrosis patients.">
+    <meta name="keywords" content="MYSEC-PM-Mol, myelofibrosis, prognostic scores, calculator, medical calculator">
+    <meta name="author" content="MYSEC-PM-Mol Calculator">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="MYSEC-PM-Mol Calculator">
+    <meta property="og:description" content="Calculate MYSEC-PM-Mol prognostic scores with our easy-to-use calculator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://myssec-pm-mol.calculator">
+    <meta property="og:image" content="/imgs/pmf.ico">
+    <meta property="og:site_name" content="MYSEC-PM-Mol Calculator">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="MYSEC-PM-Mol Calculator">
+    <meta name="twitter:description" content="Calculate MYSEC-PM-Mol prognostic scores with our easy-to-use calculator.">
+    <meta name="twitter:image" content="/imgs/pmf.ico">
+    
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#ffffff">
+    
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="/imgs/pmf.ico">
+    
+    <title>SMF Scores Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- jsPDF Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script>
+        // Initialize jsPDF immediately after loading
+        window.jsPDF = window.jspdf.jsPDF;
+        window.jspdf.autoTable = window.jspdfAutoTable;
+        
+        // Log initialization status
+        console.log('jsPDF initialized:', typeof window.jsPDF !== 'undefined');
+        console.log('autoTable initialized:', typeof window.jspdf.autoTable !== 'undefined');
+    </script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "MYSEC-PM-Mol Calculator",
+        "description": "Calculate MYSEC-PM-Mol prognostic scores with our easy-to-use calculator.",
+        "url": "https://myssec-pm-mol.calculator",
+        "applicationCategory": "MedicalApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/js/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+
+    <!-- Main Script -->
+    <script src="js/script.js"></script>
+</head>
+  
+<body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="topnav" role="navigation" aria-label="Main navigation">
+        <div class="nav-container">
+            <div class="nav-links">
+                <a class="active" href="/index.html" aria-current="page">Home</a>
+                <a href="/references.html">References</a>
+                <a href="/about.html">About</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-container" id="main-content" role="main">
+        <h1 class="page-title">Secondary Myelofibrosis (SMF)</h1>
+        <h2 class="page-subtitle">Prognostic Scores Calculator</h2>
+        
+        <!-- Create Form -->
+        <form>
+            <p class="p-title">Clinical Features</p>
+            <div class="form-control">
+                <label class="label-name">
+                    Age (years)
+                </label>
+     
+                <!-- Input Type Text -->
+                <input type="number"
+                       id="age"
+                       placeholder="N/A"
+                       min="0" max="150" />
+            </div>
+        
+            <div class="form-control">
+                <label class="label-name">
+                    Constitutional Symptoms
+                </label>
+     
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="cs-yes"
+                               name="cs">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="cs-no"
+                               name="cs">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="cs-na"
+                               name="cs" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <form>
+            <p class="p-title">Complete Blood Count</p>
+            <div class="form-control">
+                <label class="label-name">
+                    Hb < 11 g/dL
+                </label>
+     
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="hb-yes"
+                               name="hb">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="hb-no"
+                               name="hb">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="hb-na"
+                               name="hb" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
+      
+            <div class="form-control">
+                <label class="label-name">
+                    PLT < 150 x10<sup>9</sup>/L
+                </label>
+     
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="plt-yes"
+                               name="plt">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="plt-no"
+                               name="plt">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="plt-na"
+                               name="plt" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-control">
+                <label class="label-name">
+                    Blasts ≥ 3%
+                </label>
+     
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="blasts-yes"
+                               name="blasts">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="blasts-no"
+                               name="blasts">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="blasts-na"
+                               name="blasts" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <form>
+            <p class="p-title">Driver Mutation Status</p>
+            <div class="form-control">
+                <label class="label-name">
+                    CALR wildtype
+                </label>
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="calr-yes"
+                               name="calr">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="calr-no"
+                               name="calr">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="calr-na"
+                               name="calr" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <form>
+            <p class="p-title">Additional Myeloid Mutations</p>
+            <div class="form-control">
+                <label class="label-name">
+                    ASXL1 mutated without UTS mutations
+                    <div class="molecular-description">
+                        ASXL1 mutated; U2AF1, TP53, and SRSF2 unmutated
+                    </div>
+                </label>
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="asxl1-yes"
+                               name="asxl1">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="asxl1-no"
+                               name="asxl1">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="asxl1-na"
+                               name="asxl1" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
+      
+            <div class="form-control">
+                <label class="label-name">
+                    U2AF1 and/or TP53 and/or SRSF2 (UTS) mutations
+                    <div class="molecular-description">
+                        U2AF1, TP53, or SRSF2 mutated, regardless of ASXL1 mutation status
+                    </div>
+                </label>
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="uts-yes"
+                               name="uts">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="uts-no"
+                               name="uts">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="uts-na"
+                               name="uts" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
+        </form>
+
+        <div class="button-container">
+            <button type="submit" value="submit" onclick="calculateBothScores(); return false;">
+                Calculate Scores
+            </button>
+        </div>
+
+        <div class="results-wrapper">
+            <form id="results-form" style="display: none;">
+                <table class="results-table">
+                    <tr>
+                        <th>Risk Category (score)</th>
+                        <th>Survival</th>
+                    </tr>
+                    <tr>
+                        <td>MYSEC-PM</td>
+                        <td id="myssec-pm">-</td>
+                    </tr>
+                    <tr>
+                        <td>MYSEC-PM median OS, years</td>
+                        <td id="myssec-pm-os">-</td>
+                    </tr>
+                    <tr>
+                        <td>MYSEC-PM-Mol</td>
+                        <td id="myssec-pm-mol">-</td>
+                    </tr>
+                    <tr>
+                        <td>MYSEC-PM-Mol median OS, years</td>
+                        <td id="myssec-pm-mol-os">-</td>
+                    </tr>
+                </table>
+                <button type="button" onclick="exportToPDF()" class="export-button">
+                    Export Results
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+  
+</html> 
