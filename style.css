@@ -712,6 +712,11 @@ textarea:focus {
     border-bottom: 2px solid #e5e7eb;
 }
 
+.subtitle-grey-italic {
+  font-style: italic;
+  color: #888;
+}
+
 /* About Page Styles */
 .about-content {
     max-width: 700px;
