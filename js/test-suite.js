@@ -10,221 +10,201 @@ const testCases = [
     {
         id: 1,
         name: "Low Risk (Both Models)",
-                        inputs: {
-                    age: 45,
-                    cs: false,
-                    hb: false,
-                    plt: false,
-                    blasts: false,
-                    calr: false,
-                    asxl1: false,
-                    uts: false
-                },
+        inputs: {
+            age: 45,
+            cs: false,
+            hb: false,
+            plt: false,
+            blasts: false,
+            calr: false,
+            asxl1: false,
+            uts: false
+        },
         expected: {
             pmScore: 6.75,
             pmRisk: "Low risk (< 11), median survival NR",
-            pmOS: "Not reached (low)",
             pmMolScore: 11.25,
-            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
-            pmMolOS: "14.5"
+            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years"
         }
     },
     {
         id: 2,
         name: "High Risk (Both Models)",
-                        inputs: {
-                    age: 80,
-                    cs: true,
-                    hb: true,
-                    plt: true,
-                    blasts: true,
-                    calr: true,
-                    asxl1: true,
-                    uts: true
-                },
+        inputs: {
+            age: 80,
+            cs: true,
+            hb: true,
+            plt: true,
+            blasts: true,
+            calr: true,
+            asxl1: true,
+            uts: true
+        },
         expected: {
             pmScore: 20,
             pmRisk: "High risk (≥ 16), median survival 2.0 years",
-            pmOS: "2 (high risk)",
             pmMolScore: 34,
-            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
-            pmMolOS: "1.8"
+            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years"
         }
     },
     {
         id: 3,
         name: "Low Risk (Both Models)",
-                        inputs: {
-                    age: 60,
-                    cs: true,
-                    hb: false,
-                    plt: false,
-                    blasts: false,
-                    calr: false,
-                    asxl1: false,
-                    uts: false
-                },
+        inputs: {
+            age: 60,
+            cs: true,
+            hb: false,
+            plt: false,
+            blasts: false,
+            calr: false,
+            asxl1: false,
+            uts: false
+        },
         expected: {
             pmScore: 10,
             pmRisk: "Low risk (< 11), median survival NR",
-            pmOS: "Not reached (low)",
             pmMolScore: 16,
-            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
-            pmMolOS: "14.5"
+            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years"
         }
     },
     {
         id: 4,
         name: "High Risk (PM), Intermediate-2 (Mol)",
-                        inputs: {
-                    age: 68,
-                    cs: true,
-                    hb: true,
-                    plt: false,
-                    blasts: true,
-                    calr: true,
-                    asxl1: false,
-                    uts: false
-                },
+        inputs: {
+            age: 68,
+            cs: true,
+            hb: true,
+            plt: false,
+            blasts: true,
+            calr: true,
+            asxl1: false,
+            uts: false
+        },
         expected: {
             pmScore: 17.2,
             pmRisk: "High risk (≥ 16), median survival 2.0 years",
-            pmOS: "2 (high risk)",
             pmMolScore: 23,
-            pmMolRisk: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years",
-            pmMolOS: "4.2"
+            pmMolRisk: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years"
         }
     },
     {
         id: 5,
         name: "High Risk (PM), Not Calculable (Mol)",
-                        inputs: {
-                    age: 50,
-                    cs: true,
-                    hb: true,
-                    plt: true,
-                    blasts: true,
-                    calr: true,
-                    asxl1: NaN,
-                    uts: NaN
-                },
+        inputs: {
+            age: 50,
+            cs: true,
+            hb: true,
+            plt: true,
+            blasts: true,
+            calr: true,
+            asxl1: NaN,
+            uts: NaN
+        },
         expected: {
             pmScore: 15.5,
             pmRisk: "High risk (≥ 16), median survival 2.0 years",
-            pmOS: "2 (high risk)",
             pmMolScore: NaN,
-            pmMolRisk: "Can't be calculated (MISSING VALUES)",
-            pmMolOS: "Can't be calculated (MISSING VALUES)"
+            pmMolRisk: "Can't be calculated (MISSING VALUES)"
         }
     },
     {
         id: 6,
         name: "Intermediate-1 (PM), Not Calculable (Mol)",
-                        inputs: {
-                    age: 55,
-                    cs: true,
-                    hb: true,
-                    plt: false,
-                    blasts: false,
-                    calr: true,
-                    asxl1: NaN,
-                    uts: NaN
-                },
+        inputs: {
+            age: 55,
+            cs: true,
+            hb: true,
+            plt: false,
+            blasts: false,
+            calr: true,
+            asxl1: NaN,
+            uts: NaN
+        },
         expected: {
             pmScore: 13.25,
             pmRisk: "Intermediate-1 risk (11-13), median survival 9.3 years",
-            pmOS: "9.3 (int 1)",
             pmMolScore: NaN,
-            pmMolRisk: "Can't be calculated (MISSING VALUES)",
-            pmMolOS: "Can't be calculated (MISSING VALUES)"
+            pmMolRisk: "Can't be calculated (MISSING VALUES)"
         }
     },
     {
         id: 7,
         name: "Not Calculable (PM), High Risk (Mol)",
-                        inputs: {
-                    age: 70,
-                    cs: true,
-                    hb: false,
-                    plt: true,
-                    blasts: true,
-                    calr: NaN,
-                    asxl1: false,
-                    uts: false
-                },
+        inputs: {
+            age: 70,
+            cs: true,
+            hb: false,
+            plt: true,
+            blasts: true,
+            calr: NaN,
+            asxl1: false,
+            uts: false
+        },
         expected: {
             pmScore: NaN,
             pmRisk: "Can't be calculated (MISSING VALUES)",
-            pmOS: "Can't be calculated (MISSING VALUES)",
             pmMolScore: 24.5,
-            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
-            pmMolOS: "1.8"
+            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years"
         }
     },
     {
         id: 8,
         name: "Intermediate-2 (PM), High Risk (Mol)",
-                        inputs: {
-                    age: 52,
-                    cs: false,
-                    hb: true,
-                    plt: true,
-                    blasts: true,
-                    calr: true,
-                    asxl1: false,
-                    uts: true
-                },
+        inputs: {
+            age: 52,
+            cs: false,
+            hb: true,
+            plt: true,
+            blasts: true,
+            calr: true,
+            asxl1: false,
+            uts: true
+        },
         expected: {
             pmScore: 14.8,
             pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
-            pmOS: "4.4 (int 2)",
             pmMolScore: 25,
-            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
-            pmMolOS: "1.8"
+            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years"
         }
     },
     {
         id: 9,
         name: "Not Calculable (Both)",
-                        inputs: {
-                    age: 65,
-                    cs: true,
-                    hb: true,
-                    plt: true,
-                    blasts: NaN,
-                    calr: true,
-                    asxl1: true,
-                    uts: true
-                },
+        inputs: {
+            age: 65,
+            cs: true,
+            hb: true,
+            plt: true,
+            blasts: NaN,
+            calr: true,
+            asxl1: true,
+            uts: true
+        },
         expected: {
             pmScore: NaN,
             pmRisk: "Can't be calculated (MISSING VALUES)",
-            pmOS: "Can't be calculated (MISSING VALUES)",
             pmMolScore: NaN,
-            pmMolRisk: "Can't be calculated (MISSING VALUES)",
-            pmMolOS: "Can't be calculated (MISSING VALUES)"
+            pmMolRisk: "Can't be calculated (MISSING VALUES)"
         }
     },
     {
         id: 10,
         name: "Low Risk (Both Models)",
-                        inputs: {
-                    age: 40,
-                    cs: false,
-                    hb: false,
-                    plt: false,
-                    blasts: false,
-                    calr: false,
-                    asxl1: false,
-                    uts: false
-                },
+        inputs: {
+            age: 40,
+            cs: false,
+            hb: false,
+            plt: false,
+            blasts: false,
+            calr: false,
+            asxl1: false,
+            uts: false
+        },
         expected: {
             pmScore: 6.0,
             pmRisk: "Low risk (< 11), median survival NR",
-            pmOS: "Not reached (low)",
             pmMolScore: 10.0,
-            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
-            pmMolOS: "14.5"
+            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years"
         }
     }
 ];
@@ -303,11 +283,8 @@ function runTest(testCase) {
     
     // Check if results match expected values
     const pmRiskMatch = pmResult.riskCategory === expected.pmRisk;
-    const pmOSMatch = pmResult.medianOS === expected.pmOS;
     const pmMolRiskMatch = pmMolResult.riskCategory === expected.pmMolRisk;
-    const pmMolOSMatch = pmMolResult.medianOS === expected.pmMolOS;
-    
-    const testPassed = pmRiskMatch && pmOSMatch && pmMolRiskMatch && pmMolOSMatch;
+    const testPassed = pmRiskMatch && pmMolRiskMatch;
     
     return {
         testCase,
@@ -321,9 +298,7 @@ function runTest(testCase) {
         passed: testPassed,
         details: {
             pmRiskMatch,
-            pmOSMatch,
-            pmMolRiskMatch,
-            pmMolOSMatch
+            pmMolRiskMatch
         }
     };
 }
@@ -371,9 +346,7 @@ function printTestResults() {
         if (!result.passed) {
             console.log('  Expected vs Actual:');
             console.log(`    MYSEC-PM Risk: "${result.expected.pmRisk}" vs "${result.actual.pm.riskCategory}"`);
-            console.log(`    MYSEC-PM OS: "${result.expected.pmOS}" vs "${result.actual.pm.medianOS}"`);
             console.log(`    MYSEC-PM-Mol Risk: "${result.expected.pmMolRisk}" vs "${result.actual.pmMol.riskCategory}"`);
-            console.log(`    MYSEC-PM-Mol OS: "${result.expected.pmMolOS}" vs "${result.actual.pmMol.medianOS}"`);
         }
         
         console.log(`  Scores: PM=${result.actual.pmScore.toFixed(2)}, PM-Mol=${result.actual.pmMolScore.toFixed(2)}`);

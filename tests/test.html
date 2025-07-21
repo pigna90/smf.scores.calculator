@@ -185,10 +185,8 @@
                 expected: {
                     pmScore: 6.75,
                     pmRisk: "Low risk (< 11), median survival NR",
-                    pmOS: "Not reached (low)",
                     pmMolScore: 11.25,
                     pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
-                    pmMolOS: "14.5"
                 }
             },
             {
@@ -207,10 +205,8 @@
                 expected: {
                     pmScore: 20,
                     pmRisk: "High risk (≥ 16), median survival 2.0 years",
-                    pmOS: "2 (high risk)",
                     pmMolScore: 34,
                     pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
-                    pmMolOS: "1.8"
                 }
             },
             {
@@ -229,10 +225,8 @@
                 expected: {
                     pmScore: 10,
                     pmRisk: "Low risk (< 11), median survival NR",
-                    pmOS: "Not reached (low)",
                     pmMolScore: 16,
                     pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
-                    pmMolOS: "14.5"
                 }
             },
             {
@@ -251,10 +245,8 @@
                 expected: {
                     pmScore: 17.2,
                     pmRisk: "High risk (≥ 16), median survival 2.0 years",
-                    pmOS: "2 (high risk)",
                     pmMolScore: 23,
                     pmMolRisk: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years",
-                    pmMolOS: "4.2"
                 }
             },
             {
@@ -273,10 +265,8 @@
                 expected: {
                     pmScore: 15.5,
                     pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
-                    pmOS: "4.4 (int 2)",
                     pmMolScore: NaN,
                     pmMolRisk: "Can't be calculated (MISSING VALUES)",
-                    pmMolOS: "Can't be calculated (MISSING VALUES)"
                 }
             },
             {
@@ -295,10 +285,8 @@
                 expected: {
                     pmScore: 13.25,
                     pmRisk: "Intermediate-1 risk (11-13), median survival 9.3 years",
-                    pmOS: "9.3 (int 1)",
                     pmMolScore: NaN,
                     pmMolRisk: "Can't be calculated (MISSING VALUES)",
-                    pmMolOS: "Can't be calculated (MISSING VALUES)"
                 }
             },
             {
@@ -317,10 +305,8 @@
                 expected: {
                     pmScore: NaN,
                     pmRisk: "Can't be calculated (MISSING VALUES)",
-                    pmOS: "Can't be calculated (MISSING VALUES)",
                     pmMolScore: 24.5,
                     pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
-                    pmMolOS: "1.8"
                 }
             },
             {
@@ -339,10 +325,8 @@
                 expected: {
                     pmScore: 14.8,
                     pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
-                    pmOS: "4.4 (int 2)",
                     pmMolScore: 25,
                     pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
-                    pmMolOS: "1.8"
                 }
             },
             {
@@ -361,10 +345,8 @@
                 expected: {
                     pmScore: NaN,
                     pmRisk: "Can't be calculated (MISSING VALUES)",
-                    pmOS: "Can't be calculated (MISSING VALUES)",
                     pmMolScore: NaN,
                     pmMolRisk: "Can't be calculated (MISSING VALUES)",
-                    pmMolOS: "Can't be calculated (MISSING VALUES)"
                 }
             },
             {
@@ -383,10 +365,8 @@
                 expected: {
                     pmScore: 6.0,
                     pmRisk: "Low risk (< 11), median survival NR",
-                    pmOS: "Not reached (low)",
                     pmMolScore: 10.0,
                     pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
-                    pmMolOS: "14.5"
                 }
             }
         ];
@@ -455,11 +435,8 @@
             
             // Check if results match expected values
             const pmRiskMatch = pmResult.riskCategory === expected.pmRisk;
-            const pmOSMatch = pmResult.medianOS === expected.pmOS;
             const pmMolRiskMatch = pmMolResult.riskCategory === expected.pmMolRisk;
-            const pmMolOSMatch = pmMolResult.medianOS === expected.pmMolOS;
-            
-            const testPassed = pmRiskMatch && pmOSMatch && pmMolRiskMatch && pmMolOSMatch;
+            const testPassed = pmRiskMatch && pmMolRiskMatch;
             
             return {
                 testCase,
@@ -473,9 +450,7 @@
                 passed: testPassed,
                 details: {
                     pmRiskMatch,
-                    pmOSMatch,
-                    pmMolRiskMatch,
-                    pmMolOSMatch
+                    pmMolRiskMatch
                 }
             };
         }
@@ -526,20 +501,16 @@
                             <h4>Expected Results</h4>
                             <div><strong>MYSEC-PM Score:</strong> ${expected.pmScore}</div>
                             <div><strong>MYSEC-PM Risk:</strong> ${expected.pmRisk}</div>
-                            <div><strong>MYSEC-PM OS:</strong> ${expected.pmOS}</div>
                             <div><strong>MYSEC-PM-Mol Score:</strong> ${expected.pmMolScore}</div>
                             <div><strong>MYSEC-PM-Mol Risk:</strong> ${expected.pmMolRisk}</div>
-                            <div><strong>MYSEC-PM-Mol OS:</strong> ${expected.pmMolOS}</div>
                         </div>
                         
                         <div class="result-section actual">
                             <h4>Actual Results</h4>
                             <div><strong>MYSEC-PM Score:</strong> ${actual.pmScore.toFixed(2)}</div>
                             <div><strong>MYSEC-PM Risk:</strong> ${actual.pm.riskCategory}</div>
-                            <div><strong>MYSEC-PM OS:</strong> ${actual.pm.medianOS}</div>
                             <div><strong>MYSEC-PM-Mol Score:</strong> ${actual.pmMolScore.toFixed(2)}</div>
                             <div><strong>MYSEC-PM-Mol Risk:</strong> ${actual.pmMol.riskCategory}</div>
-                            <div><strong>MYSEC-PM-Mol OS:</strong> ${actual.pmMol.medianOS}</div>
                         </div>
                     </div>
                     
@@ -557,9 +528,7 @@
                         <div style="margin-top: 10px; padding: 10px; background: #fef2f2; border-radius: 5px; font-size: 0.9em;">
                             <strong>Failed Checks:</strong><br>
                             ${!details.pmRiskMatch ? '• MYSEC-PM Risk Category' : ''}
-                            ${!details.pmOSMatch ? '• MYSEC-PM OS' : ''}
                             ${!details.pmMolRiskMatch ? '• MYSEC-PM-Mol Risk Category' : ''}
-                            ${!details.pmMolOSMatch ? '• MYSEC-PM-Mol OS' : ''}
                         </div>
                     ` : ''}
                 </div>

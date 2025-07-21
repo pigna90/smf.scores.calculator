@@ -42,9 +42,7 @@ function calculateBothScores() {
     
     // Display results
     document.getElementById("myssec-pm").innerHTML = pmScoreResult.riskCategory;
-    document.getElementById("myssec-pm-os").innerHTML = pmScoreResult.medianOS;
     document.getElementById("myssec-pm-mol").innerHTML = pmMolScoreResult.riskCategory;
-    document.getElementById("myssec-pm-mol-os").innerHTML = pmMolScoreResult.medianOS;
     
     // Disable the Calculate Scores button
     const calculateButton = document.querySelector('.button-container button');
@@ -93,28 +91,23 @@ function calculateMysecPmScore(age, constitutionalSymptoms, hemoglobinLow, plate
     // Return both risk category and median OS based on the same score
     if (score < 11 && !missingValues) {
         return {
-            riskCategory: "Low risk (< 11), median survival NR",
-            medianOS: "Not reached (low)"
+            riskCategory: "Low risk (< 11), median survival NR"
         };
     } else if (score >= 11 && score < 14 && !missingValues) {
         return {
-            riskCategory: "Intermediate-1 risk (11-13), median survival 9.3 years",
-            medianOS: "9.3 (int 1)"
+            riskCategory: "Intermediate-1 risk (11-13), median survival 9.3 years"
         };
     } else if (score >= 14 && score < 16 && !missingValues) {
         return {
-            riskCategory: "Intermediate-2 risk (14-15), median survival 4.4 years",
-            medianOS: "4.4 (int 2)"
+            riskCategory: "Intermediate-2 risk (14-15), median survival 4.4 years"
         };
     } else if (score >= 16 && !missingValues) {
         return {
-            riskCategory: "High risk (≥ 16), median survival 2.0 years",
-            medianOS: "2 (high risk)"
+            riskCategory: "High risk (≥ 16), median survival 2.0 years"
         };
     } else {
         return {
-            riskCategory: "Can't be calculated (MISSING VALUES)",
-            medianOS: "Can't be calculated (MISSING VALUES)"
+            riskCategory: "Can't be calculated (MISSING VALUES)"
         };
     }
 }
@@ -167,28 +160,23 @@ function calculateMysecPmMolScore(age, constitutionalSymptoms, hemoglobinLow, pl
     // Return both risk category and median OS based on the same score
     if (score < 18.6 && !missingValues) {
         return {
-            riskCategory: "Low risk (< 18.6), median survival 14.5 years",
-            medianOS: "14.5"
+            riskCategory: "Low risk (< 18.6), median survival 14.5 years"
         };
     } else if (score >= 18.6 && score < 21.1 && !missingValues) {
         return {
-            riskCategory: "Intermediate-1 risk (18.6-21.0), median survival 7.5 years",
-            medianOS: "7.5"
+            riskCategory: "Intermediate-1 risk (18.6-21.0), median survival 7.5 years"
         };
     } else if (score >= 21.1 && score < 23.6 && !missingValues) {
         return {
-            riskCategory: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years",
-            medianOS: "4.2"
+            riskCategory: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years"
         };
     } else if (score >= 23.6 && !missingValues) {
         return {
-            riskCategory: "High risk (≥ 23.6), median survival 1.8 years",
-            medianOS: "1.8"
+            riskCategory: "High risk (≥ 23.6), median survival 1.8 years"
         };
     } else {
         return {
-            riskCategory: "Can't be calculated (MISSING VALUES)",
-            medianOS: "Can't be calculated (MISSING VALUES)"
+            riskCategory: "Can't be calculated (MISSING VALUES)"
         };
     }
 }
@@ -400,9 +388,7 @@ function exportToPDF() {
 
         const results = [
             ["MYSEC-PM", document.getElementById("myssec-pm").innerHTML],
-            ["MYSEC-PM median OS, years", document.getElementById("myssec-pm-os").innerHTML],
-            ["MYSEC-PM-Mol", document.getElementById("myssec-pm-mol").innerHTML],
-            ["MYSEC-PM-Mol median OS, years", document.getElementById("myssec-pm-mol-os").innerHTML]
+            ["MYSEC-PM-Mol", document.getElementById("myssec-pm-mol").innerHTML]
         ];
 
         doc.autoTable({
