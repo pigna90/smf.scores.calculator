@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYSEC-PM & MYSEC-PM-Mol Calculator - Test Suite</title>
+    <title>MYSEC-PM & MYSEC-mPM Calculator - Test Suite</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -138,7 +138,7 @@
     </style>
 </head>
 <body>
-    <h1>MYSEC-PM & MYSEC-PM-Mol Calculator - Test Suite</h1>
+    <h1>MYSEC-PM & MYSEC-mPM Calculator - Test Suite</h1>
     
     <div class="summary">
         <h2>Test Summary</h2>
@@ -501,23 +501,23 @@
                             <h4>Expected Results</h4>
                             <div><strong>MYSEC-PM Score:</strong> ${expected.pmScore}</div>
                             <div><strong>MYSEC-PM Risk:</strong> ${expected.pmRisk}</div>
-                            <div><strong>MYSEC-PM-Mol Score:</strong> ${expected.pmMolScore}</div>
-                            <div><strong>MYSEC-PM-Mol Risk:</strong> ${expected.pmMolRisk}</div>
+                            <div><strong>MYSEC-mPM Score:</strong> ${expected.pmMolScore}</div>
+<div><strong>MYSEC-mPM Risk:</strong> ${expected.pmMolRisk}</div>
                         </div>
                         
                         <div class="result-section actual">
                             <h4>Actual Results</h4>
                             <div><strong>MYSEC-PM Score:</strong> ${actual.pmScore.toFixed(2)}</div>
                             <div><strong>MYSEC-PM Risk:</strong> ${actual.pm.riskCategory}</div>
-                            <div><strong>MYSEC-PM-Mol Score:</strong> ${actual.pmMolScore.toFixed(2)}</div>
-                            <div><strong>MYSEC-PM-Mol Risk:</strong> ${actual.pmMol.riskCategory}</div>
+                            <div><strong>MYSEC-mPM Score:</strong> ${actual.pmMolScore.toFixed(2)}</div>
+<div><strong>MYSEC-mPM Risk:</strong> ${actual.pmMol.riskCategory}</div>
                         </div>
                     </div>
                     
                     <div class="score-breakdown">
                         <strong>Score Calculation Breakdown:</strong><br>
                         MYSEC-PM: ${testCase.inputs.age} × 0.15 + ${testCase.inputs.cs ? 1 : 0} + ${testCase.inputs.hb ? 2 : 0} + ${testCase.inputs.plt ? 1 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.calr ? 2 : 0} = ${actual.pmScore.toFixed(2)}<br>
-                                                 MYSEC-PM-Mol: ${testCase.inputs.age} × 0.25 + ${testCase.inputs.cs ? 1 : 0} + ${testCase.inputs.hb ? 2 : 0} + ${testCase.inputs.plt ? 3 : 0} + ${testCase.inputs.blasts ? 3 : 0} + ${testCase.inputs.asxl1 ? 1 : 0} + ${testCase.inputs.uts ? 4 : 0} = ${actual.pmMolScore.toFixed(2)}
+                                                 MYSEC-mPM: ${testCase.inputs.age} × 0.25 + ${testCase.inputs.cs ? 1 : 0} + ${testCase.inputs.hb ? 2 : 0} + ${testCase.inputs.plt ? 3 : 0} + ${testCase.inputs.blasts ? 3 : 0} + ${testCase.inputs.asxl1 ? 1 : 0} + ${testCase.inputs.uts ? 4 : 0} = ${actual.pmMolScore.toFixed(2)}
                     </div>
                     
                     <div class="test-status ${passed ? 'pass' : 'fail'}">
@@ -528,7 +528,7 @@
                         <div style="margin-top: 10px; padding: 10px; background: #fef2f2; border-radius: 5px; font-size: 0.9em;">
                             <strong>Failed Checks:</strong><br>
                             ${!details.pmRiskMatch ? '• MYSEC-PM Risk Category' : ''}
-                            ${!details.pmMolRiskMatch ? '• MYSEC-PM-Mol Risk Category' : ''}
+                            ${!details.pmMolRiskMatch ? '• MYSEC-mPM Risk Category' : ''}
                         </div>
                     ` : ''}
                 </div>

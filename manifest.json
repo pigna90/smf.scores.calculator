@@ -1,7 +1,7 @@
 {
-    "name": "MYSEC-PM-Mol Calculator",
-    "short_name": "MYSEC-PM-Mol",
-    "description": "Calculate MYSEC-PM-Mol prognostic scores for myelofibrosis patients",
+  "name": "MYSEC-mPM Calculator",
+  "short_name": "MYSEC-mPM",
+  "description": "Calculate MYSEC-mPM prognostic scores for myelofibrosis patients",
     "start_url": "/index.html",
     "display": "standalone",
     "background_color": "#ffffff",

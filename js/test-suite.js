@@ -1,5 +1,5 @@
 /**
- * MYSEC-PM & MYSEC-PM-Mol Calculator Test Suite
+ * MYSEC-PM & MYSEC-mPM Calculator Test Suite
  * 
  * This file contains comprehensive tests for the calculator functions.
  * It can be run independently or included in the test HTML page.
@@ -333,7 +333,7 @@ function runAllTests() {
 
 // Function to print test results to console
 function printTestResults() {
-    console.log('🧪 MYSEC-PM & MYSEC-PM-Mol Calculator Test Suite');
+    console.log('🧪 MYSEC-PM & MYSEC-mPM Calculator Test Suite');
     console.log('=' .repeat(60));
     
     const testResults = runAllTests();
@@ -346,7 +346,7 @@ function printTestResults() {
         if (!result.passed) {
             console.log('  Expected vs Actual:');
             console.log(`    MYSEC-PM Risk: "${result.expected.pmRisk}" vs "${result.actual.pm.riskCategory}"`);
-            console.log(`    MYSEC-PM-Mol Risk: "${result.expected.pmMolRisk}" vs "${result.actual.pmMol.riskCategory}"`);
+            console.log(`    MYSEC-mPM Risk: "${result.expected.pmMolRisk}" vs "${result.actual.pmMol.riskCategory}"`);
         }
         
         console.log(`  Scores: PM=${result.actual.pmScore.toFixed(2)}, PM-Mol=${result.actual.pmMolScore.toFixed(2)}`);

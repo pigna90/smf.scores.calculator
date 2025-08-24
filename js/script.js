@@ -31,7 +31,7 @@ function calculateBothScores() {
     // Calculate MYSEC-PM score once
     const pmScoreResult = calculateMysecPmScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype);
     
-    // Calculate MYSEC-PM-Mol score once
+    // Calculate MYSEC-mPM score once
     const pmMolScoreResult = calculateMysecPmMolScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations);
     
     // Show the results section
@@ -243,7 +243,7 @@ function exportToPDF() {
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(12);
         doc.setTextColor(37, 99, 235); // Blue color
-        doc.text('MYSEC-PM & MYSEC-PM-Mol Calculator Results', 105, 10, { align: 'center' });
+        doc.text('MYSEC-PM & MYSEC-mPM Calculator Results', 105, 10, { align: 'center' });
         
         // Add date
         doc.setFontSize(7);
@@ -388,7 +388,7 @@ function exportToPDF() {
 
         const results = [
             ["MYSEC-PM", document.getElementById("myssec-pm").innerHTML],
-            ["MYSEC-PM-Mol", document.getElementById("myssec-pm-mol").innerHTML]
+            ["MYSEC-mPM", document.getElementById("myssec-pm-mol").innerHTML]
         ];
 
         doc.autoTable({
