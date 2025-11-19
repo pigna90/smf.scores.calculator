@@ -32,7 +32,7 @@ function calculateBothScores() {
     const pmScoreResult = calculateMysecPmScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype);
     
     // Calculate MYSEC-mPM score once
-    const pmMolScoreResult = calculateMysecPmMolScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations);
+    const pmMolScoreResult = calculateMYSECmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations);
     
     // Show the results section
     document.getElementById("results-form").style.display = "block";
@@ -124,13 +124,13 @@ function myssecPmMedianOS(age, constitutionalSymptoms, hemoglobinLow, plateletsL
     return result.medianOS;
 }
 
-function myssecPmMol(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations) {
-    // This function is now deprecated - use calculateMysecPmMolScore instead
-    const result = calculateMysecPmMolScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations);
+function myssecMYSECmPM(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations) {
+    // This function is now deprecated - use calculateMYSECmPMScore instead
+    const result = calculateMYSECmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations);
     return result.riskCategory;
 }
 
-function calculateMysecPmMolScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations) {
+function calculateMYSECmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations) {
     let score = 0;
     const missingValues = (age === "" || isNaN(constitutionalSymptoms) || isNaN(hemoglobinLow) || isNaN(plateletsLow) || isNaN(blastsHigh) || isNaN(asxl1Mutated) || isNaN(utsMutations));
     
@@ -263,7 +263,7 @@ function exportToPDF() {
         doc.setFont('helvetica', 'normal');
 
         const clinicalFeatures = [
-            ["Age (years)", document.getElementById("age").value || "N/A"],
+            ["Age at SMF diagnosis (years)", document.getElementById("age").value || "N/A"],
             ["Constitutional Symptoms", getRadioButtonStatus("cs") === true ? "Yes" : 
                                      getRadioButtonStatus("cs") === false ? "No" : "N/A"]
         ];

@@ -261,7 +261,7 @@ function runTest(testCase) {
         inputs.calr       // calrWildtype
     );
     
-    const pmMolResult = calculateMysecPmMolScore(
+    const pmMolResult = calculateMYSECmPMScore(
         inputs.age.toString(),
         inputs.cs,        // constitutionalSymptoms
         inputs.hb,        // hemoglobinLow
