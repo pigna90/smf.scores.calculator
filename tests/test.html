@@ -185,8 +185,8 @@
                 expected: {
                     pmScore: 6.75,
                     pmRisk: "Low risk (< 11), median survival NR",
-                    pmMolScore: 11.25,
-                    pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
+                    pmMolScore: 9.45,
+                    pmMolRisk: "Low risk (< 14), median survival 18 years",
                 }
             },
             {
@@ -205,8 +205,8 @@
                 expected: {
                     pmScore: 20,
                     pmRisk: "High risk (≥ 16), median survival 2.0 years",
-                    pmMolScore: 34,
-                    pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
+                    pmMolScore: 25.8,
+                    pmMolRisk: "High risk (≥ 19), median survival 1.9 years",
                 }
             },
             {
@@ -225,8 +225,8 @@
                 expected: {
                     pmScore: 10,
                     pmRisk: "Low risk (< 11), median survival NR",
-                    pmMolScore: 16,
-                    pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
+                    pmMolScore: 12.6,
+                    pmMolRisk: "Low risk (< 14), median survival 18 years",
                 }
             },
             {
@@ -245,8 +245,8 @@
                 expected: {
                     pmScore: 17.2,
                     pmRisk: "High risk (≥ 16), median survival 2.0 years",
-                    pmMolScore: 23,
-                    pmMolRisk: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years",
+                    pmMolScore: 17.28,
+                    pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
                 }
             },
             {
@@ -305,8 +305,8 @@
                 expected: {
                     pmScore: NaN,
                     pmRisk: "Can't be calculated (MISSING VALUES)",
-                    pmMolScore: 24.5,
-                    pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
+                    pmMolScore: 18.7,
+                    pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
                 }
             },
             {
@@ -325,8 +325,8 @@
                 expected: {
                     pmScore: 14.8,
                     pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
-                    pmMolScore: 25,
-                    pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years",
+                    pmMolScore: 18.92,
+                    pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
                 }
             },
             {
@@ -365,8 +365,8 @@
                 expected: {
                     pmScore: 6.0,
                     pmRisk: "Low risk (< 11), median survival NR",
-                    pmMolScore: 10.0,
-                    pmMolRisk: "Low risk (< 18.6), median survival 14.5 years",
+                    pmMolScore: 8.4,
+                    pmMolRisk: "Low risk (< 14), median survival 18 years",
                 }
             }
         ];
@@ -388,14 +388,14 @@
         function calculateExpectedPMMolScore(age, cs, hb, plt, blasts, hmr, vhmr) {
             let score = 0;
             if (age !== "" && !isNaN(age)) {
-                score += parseFloat(age) * 0.25;
+                score += parseFloat(age) * 0.21;
             }
-            if (cs === true) score += 1;
-            if (hb === true) score += 2;
-            if (plt === true) score += 3;
-            if (blasts === true) score += 3;
+            // Constitutional symptoms removed from new algorithm
+            if (hb === true) score += 1;
+            if (plt === true) score += 2;
+            if (blasts === true) score += 2;
             if (hmr === true) score += 1;
-            if (vhmr === true) score += 4;
+            if (vhmr === true) score += 3;
             return score;
         }
 
@@ -517,7 +517,7 @@
                     <div class="score-breakdown">
                         <strong>Score Calculation Breakdown:</strong><br>
                         MYSEC-PM: ${testCase.inputs.age} × 0.15 + ${testCase.inputs.cs ? 1 : 0} + ${testCase.inputs.hb ? 2 : 0} + ${testCase.inputs.plt ? 1 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.calr ? 2 : 0} = ${actual.pmScore.toFixed(2)}<br>
-                                                 MYSEC-mPM: ${testCase.inputs.age} × 0.25 + ${testCase.inputs.cs ? 1 : 0} + ${testCase.inputs.hb ? 2 : 0} + ${testCase.inputs.plt ? 3 : 0} + ${testCase.inputs.blasts ? 3 : 0} + ${testCase.inputs.asxl1 ? 1 : 0} + ${testCase.inputs.uts ? 4 : 0} = ${actual.pmMolScore.toFixed(2)}
+                                                 MYSEC-mPM: ${testCase.inputs.age} × 0.21 + ${testCase.inputs.hb ? 1 : 0} + ${testCase.inputs.plt ? 2 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.asxl1 ? 1 : 0} + ${testCase.inputs.uts ? 3 : 0} = ${actual.pmMolScore.toFixed(2)}
                     </div>
                     
                     <div class="test-status ${passed ? 'pass' : 'fail'}">

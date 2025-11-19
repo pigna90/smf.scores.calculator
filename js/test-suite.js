@@ -23,8 +23,8 @@ const testCases = [
         expected: {
             pmScore: 6.75,
             pmRisk: "Low risk (< 11), median survival NR",
-            pmMolScore: 11.25,
-            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years"
+            pmMolScore: 9.45,
+            pmMolRisk: "Low risk (< 14), median survival 18 years"
         }
     },
     {
@@ -43,8 +43,8 @@ const testCases = [
         expected: {
             pmScore: 20,
             pmRisk: "High risk (≥ 16), median survival 2.0 years",
-            pmMolScore: 34,
-            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years"
+            pmMolScore: 25.8,
+            pmMolRisk: "High risk (≥ 19), median survival 1.9 years"
         }
     },
     {
@@ -63,8 +63,8 @@ const testCases = [
         expected: {
             pmScore: 10,
             pmRisk: "Low risk (< 11), median survival NR",
-            pmMolScore: 16,
-            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years"
+            pmMolScore: 12.6,
+            pmMolRisk: "Low risk (< 14), median survival 18 years"
         }
     },
     {
@@ -83,8 +83,8 @@ const testCases = [
         expected: {
             pmScore: 17.2,
             pmRisk: "High risk (≥ 16), median survival 2.0 years",
-            pmMolScore: 23,
-            pmMolRisk: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years"
+            pmMolScore: 17.28,
+            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
         }
     },
     {
@@ -143,8 +143,8 @@ const testCases = [
         expected: {
             pmScore: NaN,
             pmRisk: "Can't be calculated (MISSING VALUES)",
-            pmMolScore: 24.5,
-            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years"
+            pmMolScore: 18.7,
+            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
         }
     },
     {
@@ -163,8 +163,8 @@ const testCases = [
         expected: {
             pmScore: 14.8,
             pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
-            pmMolScore: 25,
-            pmMolRisk: "High risk (≥ 23.6), median survival 1.8 years"
+            pmMolScore: 18.92,
+            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
         }
     },
     {
@@ -203,8 +203,8 @@ const testCases = [
         expected: {
             pmScore: 6.0,
             pmRisk: "Low risk (< 11), median survival NR",
-            pmMolScore: 10.0,
-            pmMolRisk: "Low risk (< 18.6), median survival 14.5 years"
+            pmMolScore: 8.4,
+            pmMolRisk: "Low risk (< 14), median survival 18 years"
         }
     }
 ];
@@ -230,20 +230,20 @@ function calculateExpectedPMScore(age, cs, hb, plt, blasts, calr) {
 
 function calculateExpectedPMMolScore(age, cs, hb, plt, blasts, calr, asxl1, uts) {
     // Check for missing values first
-    if (isNaN(asxl1) || isNaN(uts)) {
+    if (isNaN(asxl1) || isNaN(uts) || isNaN(hb) || isNaN(plt) || isNaN(blasts)) {
         return NaN;
     }
-    
+
     let score = 0;
     if (age !== "" && !isNaN(age)) {
-        score += parseFloat(age) * 0.25;
+        score += parseFloat(age) * 0.21;
     }
-    if (cs === true) score += 1;
-    if (hb === true) score += 2;
-    if (plt === true) score += 3;
-    if (blasts === true) score += 3;
+    // Constitutional symptoms removed from new algorithm
+    if (hb === true) score += 1;
+    if (plt === true) score += 2;
+    if (blasts === true) score += 2;
     if (asxl1 === true) score += 1;
-    if (uts === true) score += 4;
+    if (uts === true) score += 3;
     return score;
 }
 

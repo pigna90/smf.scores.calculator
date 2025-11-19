@@ -116,15 +116,14 @@ Where:
 
 ### MYSEC-mPM Score
 ```
-Score = (Age × 0.25) + Constitutional Symptoms + Hb + PLT + Blasts + HMR + VHMR
+Score = (Age × 0.21) + Hb + PLT + Blasts + HMR + VHMR
 ```
 Where:
-- Constitutional Symptoms: 1 point if Yes
-- Hb < 11 g/dL: 2 points if Yes
-- PLT < 150 x10⁹/L: 3 points if Yes
-- Blasts ≥ 3%: 3 points if Yes
+- Hb < 11 g/dL: 1 point if Yes
+- PLT < 150 x10⁹/L: 2 points if Yes
+- Blasts ≥ 3%: 2 points if Yes
 - ASXL1 mutated without UTS mutations: 1 point if Yes
-- U2AF1 and/or TP53 and/or SRSF2 (UTS) mutations: 4 points if Yes
+- U2AF1 and/or TP53 and/or SRSF2 (UTS) mutations: 3 points if Yes
 
 ## Risk Categories
 
@@ -135,10 +134,10 @@ Where:
 - **High risk:** ≥ 16 points
 
 ### MYSEC-mPM Risk Categories
-- **Low risk:** < 18.6 points
-- **Intermediate-1 risk:** 18.6-21.0 points
-- **Intermediate-2 risk:** 21.1-23.5 points
-- **High risk:** ≥ 23.6 points
+- **Low risk:** < 14 points
+- **Intermediate-1 risk:** 14-16 points
+- **Intermediate-2 risk:** 17-18 points
+- **High risk:** ≥ 19 points
 
 ## Expected Outcomes
 

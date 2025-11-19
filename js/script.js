@@ -132,47 +132,44 @@ function myssecMYSECmPM(age, constitutionalSymptoms, hemoglobinLow, plateletsLow
 
 function calculateMYSECmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations) {
     let score = 0;
-    const missingValues = (age === "" || isNaN(constitutionalSymptoms) || isNaN(hemoglobinLow) || isNaN(plateletsLow) || isNaN(blastsHigh) || isNaN(asxl1Mutated) || isNaN(utsMutations));
+    const missingValues = (age === "" || isNaN(hemoglobinLow) || isNaN(plateletsLow) || isNaN(blastsHigh) || isNaN(asxl1Mutated) || isNaN(utsMutations));
     
     if (isNumber(age)) {
-        score += parseFloat(age) * 0.25;
-    }
-    if (isBool(constitutionalSymptoms) && constitutionalSymptoms) {
-        score += 1;
+        score += parseFloat(age) * 0.21;
     }
     if (isBool(hemoglobinLow) && hemoglobinLow) {
-        score += 2;
+        score += 1;
     }
     if (isBool(plateletsLow) && plateletsLow) {
-        score += 3;
+        score += 2;
     }
     if (isBool(blastsHigh) && blastsHigh) {
-        score += 3;
+        score += 2;
     }
     if (isBool(asxl1Mutated) && asxl1Mutated) {
         score += 1;
     }
     if (isBool(utsMutations) && utsMutations) {
-        score += 4;
+        score += 3;
     }
     console.log("score", score);
     console.log("missingValues", missingValues);
     // Return both risk category and median OS based on the same score
-    if (score < 18.6 && !missingValues) {
+    if (score < 14 && !missingValues) {
         return {
-            riskCategory: "Low risk (< 18.6), median survival 14.5 years"
+            riskCategory: "Low risk (< 14), median survival 18 years"
         };
-    } else if (score >= 18.6 && score < 21.1 && !missingValues) {
+    } else if (score >= 14 && score < 17 && !missingValues) {
         return {
-            riskCategory: "Intermediate-1 risk (18.6-21.0), median survival 7.5 years"
+            riskCategory: "Intermediate-1 risk (14-16), median survival 8.8 years"
         };
-    } else if (score >= 21.1 && score < 23.6 && !missingValues) {
+    } else if (score >= 17 && score < 19 && !missingValues) {
         return {
-            riskCategory: "Intermediate-2 risk (21.1-23.5), median survival 4.2 years"
+            riskCategory: "Intermediate-2 risk (17-18), median survival 4.6 years"
         };
-    } else if (score >= 23.6 && !missingValues) {
+    } else if (score >= 19 && !missingValues) {
         return {
-            riskCategory: "High risk (≥ 23.6), median survival 1.8 years"
+            riskCategory: "High risk (≥ 19), median survival 1.9 years"
         };
     } else {
         return {
