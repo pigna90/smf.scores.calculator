@@ -27,23 +27,28 @@ function calculateBothScores() {
     const calrWildtype = getRadioButtonStatus("calr");
     const asxl1Mutated = getRadioButtonStatus("asxl1");
     const utsMutations = getRadioButtonStatus("uts");
-    
+    const complexKaryotype = getRadioButtonStatus("karyotype");
+
     // Calculate MYSEC-PM score once
     const pmScoreResult = calculateMysecPmScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype);
-    
+
     // Calculate MYSEC-mPM score once
     const pmMolScoreResult = calculateMYSECmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations);
-    
+
+    // Calculate MYSEC-kmPM score once
+    const kmPmScoreResult = calculateMYSECkmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations, complexKaryotype);
+
     // Show the results section
     document.getElementById("results-form").style.display = "block";
-    
+
     // Scroll to the results section
     document.getElementById("results-form").scrollIntoView({ behavior: "smooth", block: "start" });
-    
+
     // Display results
     document.getElementById("myssec-pm").innerHTML = pmScoreResult.riskCategory;
     document.getElementById("myssec-pm-mol").innerHTML = pmMolScoreResult.riskCategory;
-    
+    document.getElementById("myssec-km-pm").innerHTML = kmPmScoreResult.riskCategory;
+
     // Disable the Calculate Scores button
     const calculateButton = document.querySelector('.button-container button');
     calculateButton.disabled = true;
@@ -133,7 +138,7 @@ function myssecMYSECmPM(age, constitutionalSymptoms, hemoglobinLow, plateletsLow
 function calculateMYSECmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations) {
     let score = 0;
     const missingValues = (age === "" || isNaN(hemoglobinLow) || isNaN(plateletsLow) || isNaN(blastsHigh) || isNaN(asxl1Mutated) || isNaN(utsMutations));
-    
+
     if (isNumber(age)) {
         score += parseFloat(age) * 0.21;
     }
@@ -154,6 +159,57 @@ function calculateMYSECmPMScore(age, constitutionalSymptoms, hemoglobinLow, plat
     }
     console.log("score", score);
     console.log("missingValues", missingValues);
+    // Return both risk category and median OS based on the same score
+    if (score < 14 && !missingValues) {
+        return {
+            riskCategory: "Low risk (< 14), median survival 18 years"
+        };
+    } else if (score >= 14 && score < 17 && !missingValues) {
+        return {
+            riskCategory: "Intermediate-1 risk (14-16), median survival 8.8 years"
+        };
+    } else if (score >= 17 && score < 19 && !missingValues) {
+        return {
+            riskCategory: "Intermediate-2 risk (17-18), median survival 4.6 years"
+        };
+    } else if (score >= 19 && !missingValues) {
+        return {
+            riskCategory: "High risk (≥ 19), median survival 1.9 years"
+        };
+    } else {
+        return {
+            riskCategory: "Can't be calculated (MISSING VALUES)"
+        };
+    }
+}
+
+function calculateMYSECkmPMScore(age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations, complexKaryotype) {
+    let score = 0;
+    const missingValues = (age === "" || isNaN(hemoglobinLow) || isNaN(plateletsLow) || isNaN(blastsHigh) || isNaN(asxl1Mutated) || isNaN(utsMutations) || isNaN(complexKaryotype));
+
+    if (isNumber(age)) {
+        score += parseFloat(age) * 0.21;
+    }
+    if (isBool(hemoglobinLow) && hemoglobinLow) {
+        score += 1;
+    }
+    if (isBool(plateletsLow) && plateletsLow) {
+        score += 2;
+    }
+    if (isBool(blastsHigh) && blastsHigh) {
+        score += 2;
+    }
+    if (isBool(asxl1Mutated) && asxl1Mutated) {
+        score += 1;
+    }
+    if (isBool(utsMutations) && utsMutations) {
+        score += 3;
+    }
+    if (isBool(complexKaryotype) && complexKaryotype) {
+        score += 2;
+    }
+    console.log("MYSEC-kmPM score", score);
+    console.log("MYSEC-kmPM missingValues", missingValues);
     // Return both risk category and median OS based on the same score
     if (score < 14 && !missingValues) {
         return {
@@ -352,9 +408,9 @@ function exportToPDF() {
         doc.setFont('helvetica', 'normal');
 
         const myeloidMutations = [
-            ["ASXL1 mutated without UTS mutations", getRadioButtonStatus("asxl1") === true ? "Yes" : 
+            ["ASXL1 mutated without UTS mutations", getRadioButtonStatus("asxl1") === true ? "Yes" :
                                                    getRadioButtonStatus("asxl1") === false ? "No" : "N/A"],
-            ["U2AF1 and/or TP53 and/or SRSF2 (UTS) mutations", getRadioButtonStatus("uts") === true ? "Yes" : 
+            ["U2AF1 and/or TP53 and/or SRSF2 (UTS) mutations", getRadioButtonStatus("uts") === true ? "Yes" :
                                                                getRadioButtonStatus("uts") === false ? "No" : "N/A"]
         ];
 
@@ -375,6 +431,35 @@ function exportToPDF() {
             margin: { left: 27.5, right: 27.5 }
         });
 
+        // Cytogenetics Section
+        startY = doc.autoTable.previous.finalY + 6;
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Cytogenetics', 105, startY, { align: 'center' });
+        doc.setFont('helvetica', 'normal');
+
+        const cytogenetics = [
+            ["Complex/monosomal karyotype", getRadioButtonStatus("karyotype") === true ? "Yes" :
+                                          getRadioButtonStatus("karyotype") === false ? "No" : "N/A"]
+        ];
+
+        doc.autoTable({
+            startY: startY + 4,
+            body: cytogenetics,
+            theme: 'grid',
+            styles: {
+                fontSize: 8,
+                cellPadding: 2,
+                lineWidth: 0.1,
+                halign: 'center'
+            },
+            columnStyles: {
+                0: { cellWidth: 100, halign: 'left' },
+                1: { cellWidth: 50, halign: 'center' }
+            },
+            margin: { left: 27.5, right: 27.5 }
+        });
+
         // Results Section
         startY = doc.autoTable.previous.finalY + 10;
         doc.setFontSize(12);
@@ -385,7 +470,8 @@ function exportToPDF() {
 
         const results = [
             ["MYSEC-PM", document.getElementById("myssec-pm").innerHTML],
-            ["MYSEC-mPM", document.getElementById("myssec-pm-mol").innerHTML]
+            ["MYSEC-mPM", document.getElementById("myssec-pm-mol").innerHTML],
+            ["MYSEC-kmPM", document.getElementById("myssec-km-pm").innerHTML]
         ];
 
         doc.autoTable({
@@ -424,7 +510,8 @@ function debugParameters() {
     const calrWildtype = getRadioButtonStatus("calr");
     const asxl1Mutated = getRadioButtonStatus("asxl1");
     const utsMutations = getRadioButtonStatus("uts");
-    
+    const complexKaryotype = getRadioButtonStatus("karyotype");
+
     console.log("=== Parameter Debug ===");
     console.log("Age:", age, "isNaN:", isNaN(age));
     console.log("Constitutional Symptoms:", constitutionalSymptoms, "isNaN:", isNaN(constitutionalSymptoms));
@@ -434,11 +521,12 @@ function debugParameters() {
     console.log("CALR wildtype:", calrWildtype, "isNaN:", isNaN(calrWildtype));
     console.log("ASXL1 mutated:", asxl1Mutated, "isNaN:", isNaN(asxl1Mutated));
     console.log("UTS mutations:", utsMutations, "isNaN:", isNaN(utsMutations));
-    
+    console.log("Complex/monosomal karyotype:", complexKaryotype, "isNaN:", isNaN(complexKaryotype));
+
     // Check which parameters are causing missing values for MYSEC-PM
     const pmMissingValues = (age === "" || isNaN(constitutionalSymptoms) || isNaN(hemoglobinLow) || isNaN(plateletsLow) || isNaN(blastsHigh) || isNaN(calrWildtype));
     console.log("MYSEC-PM Missing Values:", pmMissingValues);
-    
+
     if (pmMissingValues) {
         console.log("MYSEC-PM Missing Values Breakdown:");
         console.log("- Age empty:", age === "");
@@ -448,8 +536,23 @@ function debugParameters() {
         console.log("- Blasts NaN:", isNaN(blastsHigh));
         console.log("- CALR NaN:", isNaN(calrWildtype));
     }
-    
+
+    // Check which parameters are causing missing values for MYSEC-kmPM
+    const kmPmMissingValues = (age === "" || isNaN(hemoglobinLow) || isNaN(plateletsLow) || isNaN(blastsHigh) || isNaN(asxl1Mutated) || isNaN(utsMutations) || isNaN(complexKaryotype));
+    console.log("MYSEC-kmPM Missing Values:", kmPmMissingValues);
+
+    if (kmPmMissingValues) {
+        console.log("MYSEC-kmPM Missing Values Breakdown:");
+        console.log("- Age empty:", age === "");
+        console.log("- Hb NaN:", isNaN(hemoglobinLow));
+        console.log("- PLT NaN:", isNaN(plateletsLow));
+        console.log("- Blasts NaN:", isNaN(blastsHigh));
+        console.log("- ASXL1 NaN:", isNaN(asxl1Mutated));
+        console.log("- UTS NaN:", isNaN(utsMutations));
+        console.log("- Complex/monosomal karyotype NaN:", isNaN(complexKaryotype));
+    }
+
     return {
-        age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations
+        age, constitutionalSymptoms, hemoglobinLow, plateletsLow, blastsHigh, calrWildtype, asxl1Mutated, utsMutations, complexKaryotype
     };
 } 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MYSEC-PM & MYSEC-mPM Calculator - Test Suite</title>
+    <title>MYSEC-PM, MYSEC-mPM & MYSEC-kmPM Calculator - Test Suite</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -138,7 +138,7 @@
     </style>
 </head>
 <body>
-    <h1>MYSEC-PM & MYSEC-mPM Calculator - Test Suite</h1>
+    <h1>MYSEC-PM, MYSEC-mPM & MYSEC-kmPM Calculator - Test Suite</h1>
     
     <div class="summary">
         <h2>Test Summary</h2>
@@ -171,7 +171,7 @@
         const testCases = [
             {
                 id: 1,
-                name: "Low Risk (Both Models)",
+                name: "Low Risk (All Models)",
                 inputs: {
                     age: 45,
                     cs: false,
@@ -180,18 +180,21 @@
                     blasts: false,
                     calr: false,
                     asxl1: false,
-                    uts: false
+                    uts: false,
+                    karyotype: false
                 },
                 expected: {
                     pmScore: 6.75,
                     pmRisk: "Low risk (< 11), median survival NR",
                     pmMolScore: 9.45,
                     pmMolRisk: "Low risk (< 14), median survival 18 years",
+                    kmPmScore: 9.45,
+                    kmPmRisk: "Low risk (< 14), median survival 18 years"
                 }
             },
             {
                 id: 2,
-                name: "High Risk (Both Models)",
+                name: "High Risk (All Models)",
                 inputs: {
                     age: 80,
                     cs: true,
@@ -200,18 +203,21 @@
                     blasts: true,
                     calr: true,
                     asxl1: true,
-                    uts: true
+                    uts: true,
+                    karyotype: true
                 },
                 expected: {
                     pmScore: 20,
                     pmRisk: "High risk (≥ 16), median survival 2.0 years",
                     pmMolScore: 25.8,
                     pmMolRisk: "High risk (≥ 19), median survival 1.9 years",
+                    kmPmScore: 27.8,
+                    kmPmRisk: "High risk (≥ 19), median survival 1.9 years"
                 }
             },
             {
                 id: 3,
-                name: "Low Risk (Both Models)",
+                name: "Low Risk (All Models)",
                 inputs: {
                     age: 60,
                     cs: true,
@@ -220,18 +226,21 @@
                     blasts: false,
                     calr: false,
                     asxl1: false,
-                    uts: false
+                    uts: false,
+                    karyotype: false
                 },
                 expected: {
                     pmScore: 10,
                     pmRisk: "Low risk (< 11), median survival NR",
                     pmMolScore: 12.6,
                     pmMolRisk: "Low risk (< 14), median survival 18 years",
+                    kmPmScore: 12.6,
+                    kmPmRisk: "Low risk (< 14), median survival 18 years"
                 }
             },
             {
                 id: 4,
-                name: "High Risk (PM), Intermediate-2 (Mol)",
+                name: "High Risk (PM), Intermediate-2 (Mol), High Risk (kmPM)",
                 inputs: {
                     age: 68,
                     cs: true,
@@ -240,18 +249,21 @@
                     blasts: true,
                     calr: true,
                     asxl1: false,
-                    uts: false
+                    uts: false,
+                    karyotype: true
                 },
                 expected: {
                     pmScore: 17.2,
                     pmRisk: "High risk (≥ 16), median survival 2.0 years",
                     pmMolScore: 17.28,
                     pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
+                    kmPmScore: 19.28,
+                    kmPmRisk: "High risk (≥ 19), median survival 1.9 years"
                 }
             },
             {
                 id: 5,
-                name: "Intermediate-2 (PM), Not Calculable (Mol)",
+                name: "Intermediate-2 (PM), Not Calculable (Mol & kmPM)",
                 inputs: {
                     age: 50,
                     cs: true,
@@ -260,18 +272,21 @@
                     blasts: true,
                     calr: true,
                     asxl1: NaN,
-                    uts: NaN
+                    uts: NaN,
+                    karyotype: NaN
                 },
                 expected: {
                     pmScore: 15.5,
                     pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
                     pmMolScore: NaN,
                     pmMolRisk: "Can't be calculated (MISSING VALUES)",
+                    kmPmScore: NaN,
+                    kmPmRisk: "Can't be calculated (MISSING VALUES)"
                 }
             },
             {
                 id: 6,
-                name: "Intermediate-1 (PM), Not Calculable (Mol)",
+                name: "Intermediate-1 (PM), Not Calculable (Mol & kmPM)",
                 inputs: {
                     age: 55,
                     cs: true,
@@ -280,18 +295,21 @@
                     blasts: false,
                     calr: true,
                     asxl1: NaN,
-                    uts: NaN
+                    uts: NaN,
+                    karyotype: NaN
                 },
                 expected: {
                     pmScore: 13.25,
                     pmRisk: "Intermediate-1 risk (11-13), median survival 9.3 years",
                     pmMolScore: NaN,
                     pmMolRisk: "Can't be calculated (MISSING VALUES)",
+                    kmPmScore: NaN,
+                    kmPmRisk: "Can't be calculated (MISSING VALUES)"
                 }
             },
             {
                 id: 7,
-                name: "Not Calculable (PM), High Risk (Mol)",
+                name: "Not Calculable (PM), Intermediate-2 (Mol & kmPM)",
                 inputs: {
                     age: 70,
                     cs: true,
@@ -300,18 +318,21 @@
                     blasts: true,
                     calr: NaN,
                     asxl1: false,
-                    uts: false
+                    uts: false,
+                    karyotype: false
                 },
                 expected: {
                     pmScore: NaN,
                     pmRisk: "Can't be calculated (MISSING VALUES)",
                     pmMolScore: 18.7,
                     pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
+                    kmPmScore: 18.7,
+                    kmPmRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
                 }
             },
             {
                 id: 8,
-                name: "Intermediate-2 (PM), High Risk (Mol)",
+                name: "Intermediate-2 (PM), Intermediate-2 (Mol & kmPM)",
                 inputs: {
                     age: 52,
                     cs: false,
@@ -320,18 +341,21 @@
                     blasts: true,
                     calr: true,
                     asxl1: false,
-                    uts: true
+                    uts: true,
+                    karyotype: false
                 },
                 expected: {
                     pmScore: 14.8,
                     pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
                     pmMolScore: 18.92,
                     pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
+                    kmPmScore: 18.92,
+                    kmPmRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
                 }
             },
             {
                 id: 9,
-                name: "Not Calculable (Both)",
+                name: "Not Calculable (All Models)",
                 inputs: {
                     age: 65,
                     cs: true,
@@ -340,18 +364,21 @@
                     blasts: NaN,
                     calr: true,
                     asxl1: true,
-                    uts: true
+                    uts: true,
+                    karyotype: true
                 },
                 expected: {
                     pmScore: NaN,
                     pmRisk: "Can't be calculated (MISSING VALUES)",
                     pmMolScore: NaN,
                     pmMolRisk: "Can't be calculated (MISSING VALUES)",
+                    kmPmScore: NaN,
+                    kmPmRisk: "Can't be calculated (MISSING VALUES)"
                 }
             },
             {
                 id: 10,
-                name: "Low Risk (Both Models)",
+                name: "Low Risk (All Models)",
                 inputs: {
                     age: 40,
                     cs: false,
@@ -360,13 +387,16 @@
                     blasts: false,
                     calr: false,
                     asxl1: false,
-                    uts: false
+                    uts: false,
+                    karyotype: false
                 },
                 expected: {
                     pmScore: 6.0,
                     pmRisk: "Low risk (< 11), median survival NR",
                     pmMolScore: 8.4,
                     pmMolRisk: "Low risk (< 14), median survival 18 years",
+                    kmPmScore: 8.4,
+                    kmPmRisk: "Low risk (< 14), median survival 18 years"
                 }
             }
         ];
@@ -385,7 +415,12 @@
             return score;
         }
 
-        function calculateExpectedPMMolScore(age, cs, hb, plt, blasts, hmr, vhmr) {
+        function calculateExpectedPMMolScore(age, cs, hb, plt, blasts, calr, asxl1, uts) {
+            // Check for missing values first
+            if (isNaN(asxl1) || isNaN(uts) || isNaN(hb) || isNaN(plt) || isNaN(blasts)) {
+                return NaN;
+            }
+
             let score = 0;
             if (age !== "" && !isNaN(age)) {
                 score += parseFloat(age) * 0.21;
@@ -394,8 +429,28 @@
             if (hb === true) score += 1;
             if (plt === true) score += 2;
             if (blasts === true) score += 2;
-            if (hmr === true) score += 1;
-            if (vhmr === true) score += 3;
+            if (asxl1 === true) score += 1;
+            if (uts === true) score += 3;
+            return score;
+        }
+
+        function calculateExpectedKMPMScore(age, cs, hb, plt, blasts, calr, asxl1, uts, karyotype) {
+            // Check for missing values first
+            if (isNaN(asxl1) || isNaN(uts) || isNaN(hb) || isNaN(plt) || isNaN(blasts) || isNaN(karyotype)) {
+                return NaN;
+            }
+
+            let score = 0;
+            if (age !== "" && !isNaN(age)) {
+                score += parseFloat(age) * 0.21;
+            }
+            // Constitutional symptoms removed from new algorithm
+            if (hb === true) score += 1;
+            if (plt === true) score += 2;
+            if (blasts === true) score += 2;
+            if (asxl1 === true) score += 1;
+            if (uts === true) score += 3;
+            if (karyotype === true) score += 2;
             return score;
         }
 
@@ -423,6 +478,18 @@
                 inputs.asxl1,
                 inputs.uts
             );
+
+            const kmPmResult = calculateMYSECkmPMScore(
+                inputs.age.toString(),
+                inputs.cs,
+                inputs.hb,
+                inputs.plt,
+                inputs.blasts,
+                inputs.calr,
+                inputs.asxl1,
+                inputs.uts,
+                inputs.karyotype
+            );
             
             // Calculate expected scores manually for comparison
             const expectedPMScore = calculateExpectedPMScore(
@@ -432,25 +499,33 @@
             const expectedPMMolScore = calculateExpectedPMMolScore(
                 inputs.age, inputs.cs, inputs.hb, inputs.plt, inputs.blasts, inputs.calr, inputs.asxl1, inputs.uts
             );
+
+            const expectedKMPMScore = calculateExpectedKMPMScore(
+                inputs.age, inputs.cs, inputs.hb, inputs.plt, inputs.blasts, inputs.calr, inputs.asxl1, inputs.uts, inputs.karyotype
+            );
             
             // Check if results match expected values
             const pmRiskMatch = pmResult.riskCategory === expected.pmRisk;
             const pmMolRiskMatch = pmMolResult.riskCategory === expected.pmMolRisk;
-            const testPassed = pmRiskMatch && pmMolRiskMatch;
+            const kmPmRiskMatch = kmPmResult.riskCategory === expected.kmPmRisk;
+            const testPassed = pmRiskMatch && pmMolRiskMatch && kmPmRiskMatch;
             
             return {
                 testCase,
                 actual: {
                     pm: pmResult,
                     pmMol: pmMolResult,
+                    kmPm: kmPmResult,
                     pmScore: expectedPMScore,
-                    pmMolScore: expectedPMMolScore
+                    pmMolScore: expectedPMMolScore,
+                    kmPmScore: expectedKMPMScore
                 },
                 expected,
                 passed: testPassed,
                 details: {
                     pmRiskMatch,
-                    pmMolRiskMatch
+                    pmMolRiskMatch,
+                    kmPmRiskMatch
                 }
             };
         }
@@ -467,7 +542,8 @@
                 blasts: "Blasts ≥ 3%",
                 calr: "CALR wildtype",
                 asxl1: "ASXL1 mutated without UTS mutations",
-                uts: "U2AF1 and/or TP53 and/or SRSF2 (UTS) mutations"
+                uts: "U2AF1 and/or TP53 and/or SRSF2 (UTS) mutations",
+                karyotype: "Complex/monosomal karyotype"
             };
             
             const inputValues = {
@@ -478,7 +554,8 @@
                 blasts: testCase.inputs.blasts === true ? "Yes" : testCase.inputs.blasts === false ? "No" : "N/A",
                 calr: testCase.inputs.calr === true ? "Yes" : testCase.inputs.calr === false ? "No" : "N/A",
                 asxl1: testCase.inputs.asxl1 === true ? "Yes" : testCase.inputs.asxl1 === false ? "No" : "N/A",
-                uts: testCase.inputs.uts === true ? "Yes" : testCase.inputs.uts === false ? "No" : "N/A"
+                uts: testCase.inputs.uts === true ? "Yes" : testCase.inputs.uts === false ? "No" : "N/A",
+                karyotype: testCase.inputs.karyotype === true ? "Yes" : testCase.inputs.karyotype === false ? "No" : "N/A"
             };
             
             return `
@@ -502,22 +579,27 @@
                             <div><strong>MYSEC-PM Score:</strong> ${expected.pmScore}</div>
                             <div><strong>MYSEC-PM Risk:</strong> ${expected.pmRisk}</div>
                             <div><strong>MYSEC-mPM Score:</strong> ${expected.pmMolScore}</div>
-<div><strong>MYSEC-mPM Risk:</strong> ${expected.pmMolRisk}</div>
+                            <div><strong>MYSEC-mPM Risk:</strong> ${expected.pmMolRisk}</div>
+                            <div><strong>MYSEC-kmPM Score:</strong> ${expected.kmPmScore}</div>
+                            <div><strong>MYSEC-kmPM Risk:</strong> ${expected.kmPmRisk}</div>
                         </div>
-                        
+
                         <div class="result-section actual">
                             <h4>Actual Results</h4>
-                            <div><strong>MYSEC-PM Score:</strong> ${actual.pmScore.toFixed(2)}</div>
+                            <div><strong>MYSEC-PM Score:</strong> ${isNaN(actual.pmScore) ? 'NaN' : actual.pmScore.toFixed(2)}</div>
                             <div><strong>MYSEC-PM Risk:</strong> ${actual.pm.riskCategory}</div>
-                            <div><strong>MYSEC-mPM Score:</strong> ${actual.pmMolScore.toFixed(2)}</div>
-<div><strong>MYSEC-mPM Risk:</strong> ${actual.pmMol.riskCategory}</div>
+                            <div><strong>MYSEC-mPM Score:</strong> ${isNaN(actual.pmMolScore) ? 'NaN' : actual.pmMolScore.toFixed(2)}</div>
+                            <div><strong>MYSEC-mPM Risk:</strong> ${actual.pmMol.riskCategory}</div>
+                            <div><strong>MYSEC-kmPM Score:</strong> ${isNaN(actual.kmPmScore) ? 'NaN' : actual.kmPmScore.toFixed(2)}</div>
+                            <div><strong>MYSEC-kmPM Risk:</strong> ${actual.kmPm.riskCategory}</div>
                         </div>
                     </div>
                     
                     <div class="score-breakdown">
                         <strong>Score Calculation Breakdown:</strong><br>
-                        MYSEC-PM: ${testCase.inputs.age} × 0.15 + ${testCase.inputs.cs ? 1 : 0} + ${testCase.inputs.hb ? 2 : 0} + ${testCase.inputs.plt ? 1 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.calr ? 2 : 0} = ${actual.pmScore.toFixed(2)}<br>
-                                                 MYSEC-mPM: ${testCase.inputs.age} × 0.21 + ${testCase.inputs.hb ? 1 : 0} + ${testCase.inputs.plt ? 2 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.asxl1 ? 1 : 0} + ${testCase.inputs.uts ? 3 : 0} = ${actual.pmMolScore.toFixed(2)}
+                        MYSEC-PM: ${testCase.inputs.age} × 0.15 + ${testCase.inputs.cs ? 1 : 0} + ${testCase.inputs.hb ? 2 : 0} + ${testCase.inputs.plt ? 1 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.calr ? 2 : 0} = ${isNaN(actual.pmScore) ? 'NaN' : actual.pmScore.toFixed(2)}<br>
+                        MYSEC-mPM: ${testCase.inputs.age} × 0.21 + ${testCase.inputs.hb ? 1 : 0} + ${testCase.inputs.plt ? 2 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.asxl1 ? 1 : 0} + ${testCase.inputs.uts ? 3 : 0} = ${isNaN(actual.pmMolScore) ? 'NaN' : actual.pmMolScore.toFixed(2)}<br>
+                        MYSEC-kmPM: ${testCase.inputs.age} × 0.21 + ${testCase.inputs.hb ? 1 : 0} + ${testCase.inputs.plt ? 2 : 0} + ${testCase.inputs.blasts ? 2 : 0} + ${testCase.inputs.asxl1 ? 1 : 0} + ${testCase.inputs.uts ? 3 : 0} + ${testCase.inputs.karyotype ? 2 : 0} = ${isNaN(actual.kmPmScore) ? 'NaN' : actual.kmPmScore.toFixed(2)}
                     </div>
                     
                     <div class="test-status ${passed ? 'pass' : 'fail'}">
@@ -527,8 +609,9 @@
                     ${!passed ? `
                         <div style="margin-top: 10px; padding: 10px; background: #fef2f2; border-radius: 5px; font-size: 0.9em;">
                             <strong>Failed Checks:</strong><br>
-                            ${!details.pmRiskMatch ? '• MYSEC-PM Risk Category' : ''}
-                            ${!details.pmMolRiskMatch ? '• MYSEC-mPM Risk Category' : ''}
+                            ${!details.pmRiskMatch ? '• MYSEC-PM Risk Category<br>' : ''}
+                            ${!details.pmMolRiskMatch ? '• MYSEC-mPM Risk Category<br>' : ''}
+                            ${!details.kmPmRiskMatch ? '• MYSEC-kmPM Risk Category<br>' : ''}
                         </div>
                     ` : ''}
                 </div>

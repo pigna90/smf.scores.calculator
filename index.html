@@ -316,6 +316,34 @@
                     </label>
                 </div>
             </div>
+
+        </form>
+
+        <form>
+            <p class="p-title">Cytogenetics</p>
+            <div class="form-control">
+                <label class="label-name">
+                    Complex/monosomal karyotype
+                </label>
+                <!-- Input Type Radio Button -->
+                <div class="radio-group">
+                    <label>
+                        <input type="radio"
+                               id="karyotype-yes"
+                               name="karyotype">Yes</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="karyotype-no"
+                               name="karyotype">No</input>
+                    </label>
+                    <label>
+                        <input type="radio"
+                               id="karyotype-na"
+                               name="karyotype" checked>N/A</input>
+                    </label>
+                </div>
+            </div>
         </form>
 
         <div class="button-container">
@@ -338,6 +366,10 @@
                     <tr>
                         <td>MYSEC-mPM</td>
                         <td id="myssec-pm-mol">-</td>
+                    </tr>
+                    <tr>
+                        <td>MYSEC-kmPM</td>
+                        <td id="myssec-km-pm">-</td>
                     </tr>
                 </table>
                 <button type="button" onclick="exportToPDF()" class="export-button">

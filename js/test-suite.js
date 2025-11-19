@@ -18,13 +18,16 @@ const testCases = [
             blasts: false,
             calr: false,
             asxl1: false,
-            uts: false
+            uts: false,
+            karyotype: false
         },
         expected: {
             pmScore: 6.75,
             pmRisk: "Low risk (< 11), median survival NR",
             pmMolScore: 9.45,
-            pmMolRisk: "Low risk (< 14), median survival 18 years"
+            pmMolRisk: "Low risk (< 14), median survival 18 years",
+            kmPmScore: 9.45,
+            kmPmRisk: "Low risk (< 14), median survival 18 years"
         }
     },
     {
@@ -38,13 +41,16 @@ const testCases = [
             blasts: true,
             calr: true,
             asxl1: true,
-            uts: true
+            uts: true,
+            karyotype: true
         },
         expected: {
             pmScore: 20,
             pmRisk: "High risk (≥ 16), median survival 2.0 years",
             pmMolScore: 25.8,
-            pmMolRisk: "High risk (≥ 19), median survival 1.9 years"
+            pmMolRisk: "High risk (≥ 19), median survival 1.9 years",
+            kmPmScore: 27.8,
+            kmPmRisk: "High risk (≥ 19), median survival 1.9 years"
         }
     },
     {
@@ -58,13 +64,16 @@ const testCases = [
             blasts: false,
             calr: false,
             asxl1: false,
-            uts: false
+            uts: false,
+            karyotype: false
         },
         expected: {
             pmScore: 10,
             pmRisk: "Low risk (< 11), median survival NR",
             pmMolScore: 12.6,
-            pmMolRisk: "Low risk (< 14), median survival 18 years"
+            pmMolRisk: "Low risk (< 14), median survival 18 years",
+            kmPmScore: 12.6,
+            kmPmRisk: "Low risk (< 14), median survival 18 years"
         }
     },
     {
@@ -78,18 +87,21 @@ const testCases = [
             blasts: true,
             calr: true,
             asxl1: false,
-            uts: false
+            uts: false,
+            karyotype: true
         },
         expected: {
             pmScore: 17.2,
             pmRisk: "High risk (≥ 16), median survival 2.0 years",
             pmMolScore: 17.28,
-            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
+            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
+            kmPmScore: 19.28,
+            kmPmRisk: "High risk (≥ 19), median survival 1.9 years"
         }
     },
     {
         id: 5,
-        name: "High Risk (PM), Not Calculable (Mol)",
+        name: "Intermediate-2 (PM), Not Calculable (Mol & kmPM)",
         inputs: {
             age: 50,
             cs: true,
@@ -98,13 +110,16 @@ const testCases = [
             blasts: true,
             calr: true,
             asxl1: NaN,
-            uts: NaN
+            uts: NaN,
+            karyotype: NaN
         },
         expected: {
             pmScore: 15.5,
-            pmRisk: "High risk (≥ 16), median survival 2.0 years",
+            pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
             pmMolScore: NaN,
-            pmMolRisk: "Can't be calculated (MISSING VALUES)"
+            pmMolRisk: "Can't be calculated (MISSING VALUES)",
+            kmPmScore: NaN,
+            kmPmRisk: "Can't be calculated (MISSING VALUES)"
         }
     },
     {
@@ -118,13 +133,16 @@ const testCases = [
             blasts: false,
             calr: true,
             asxl1: NaN,
-            uts: NaN
+            uts: NaN,
+            karyotype: NaN
         },
         expected: {
             pmScore: 13.25,
             pmRisk: "Intermediate-1 risk (11-13), median survival 9.3 years",
             pmMolScore: NaN,
-            pmMolRisk: "Can't be calculated (MISSING VALUES)"
+            pmMolRisk: "Can't be calculated (MISSING VALUES)",
+            kmPmScore: NaN,
+            kmPmRisk: "Can't be calculated (MISSING VALUES)"
         }
     },
     {
@@ -138,13 +156,16 @@ const testCases = [
             blasts: true,
             calr: NaN,
             asxl1: false,
-            uts: false
+            uts: false,
+            karyotype: false
         },
         expected: {
             pmScore: NaN,
             pmRisk: "Can't be calculated (MISSING VALUES)",
             pmMolScore: 18.7,
-            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
+            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
+            kmPmScore: 18.7,
+            kmPmRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
         }
     },
     {
@@ -158,13 +179,16 @@ const testCases = [
             blasts: true,
             calr: true,
             asxl1: false,
-            uts: true
+            uts: true,
+            karyotype: false
         },
         expected: {
             pmScore: 14.8,
             pmRisk: "Intermediate-2 risk (14-15), median survival 4.4 years",
             pmMolScore: 18.92,
-            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
+            pmMolRisk: "Intermediate-2 risk (17-18), median survival 4.6 years",
+            kmPmScore: 18.92,
+            kmPmRisk: "Intermediate-2 risk (17-18), median survival 4.6 years"
         }
     },
     {
@@ -178,13 +202,16 @@ const testCases = [
             blasts: NaN,
             calr: true,
             asxl1: true,
-            uts: true
+            uts: true,
+            karyotype: true
         },
         expected: {
             pmScore: NaN,
             pmRisk: "Can't be calculated (MISSING VALUES)",
             pmMolScore: NaN,
-            pmMolRisk: "Can't be calculated (MISSING VALUES)"
+            pmMolRisk: "Can't be calculated (MISSING VALUES)",
+            kmPmScore: NaN,
+            kmPmRisk: "Can't be calculated (MISSING VALUES)"
         }
     },
     {
@@ -198,13 +225,16 @@ const testCases = [
             blasts: false,
             calr: false,
             asxl1: false,
-            uts: false
+            uts: false,
+            karyotype: false
         },
         expected: {
             pmScore: 6.0,
             pmRisk: "Low risk (< 11), median survival NR",
             pmMolScore: 8.4,
-            pmMolRisk: "Low risk (< 14), median survival 18 years"
+            pmMolRisk: "Low risk (< 14), median survival 18 years",
+            kmPmScore: 8.4,
+            kmPmRisk: "Low risk (< 14), median survival 18 years"
         }
     }
 ];
@@ -247,6 +277,26 @@ function calculateExpectedPMMolScore(age, cs, hb, plt, blasts, calr, asxl1, uts)
     return score;
 }
 
+function calculateExpectedKMPMScore(age, cs, hb, plt, blasts, calr, asxl1, uts, karyotype) {
+    // Check for missing values first
+    if (isNaN(asxl1) || isNaN(uts) || isNaN(hb) || isNaN(plt) || isNaN(blasts) || isNaN(karyotype)) {
+        return NaN;
+    }
+
+    let score = 0;
+    if (age !== "" && !isNaN(age)) {
+        score += parseFloat(age) * 0.21;
+    }
+    // Constitutional symptoms removed from new algorithm
+    if (hb === true) score += 1;
+    if (plt === true) score += 2;
+    if (blasts === true) score += 2;
+    if (asxl1 === true) score += 1;
+    if (uts === true) score += 3;
+    if (karyotype === true) score += 2;
+    return score;
+}
+
 // Function to run a single test
 function runTest(testCase) {
     const { inputs, expected } = testCase;
@@ -271,6 +321,18 @@ function runTest(testCase) {
         inputs.asxl1,     // asxl1Mutated
         inputs.uts        // utsMutations
     );
+
+    const kmPmResult = calculateMYSECkmPMScore(
+        inputs.age.toString(),
+        inputs.cs,        // constitutionalSymptoms
+        inputs.hb,        // hemoglobinLow
+        inputs.plt,       // plateletsLow
+        inputs.blasts,    // blastsHigh
+        inputs.calr,      // calrWildtype
+        inputs.asxl1,     // asxl1Mutated
+        inputs.uts,       // utsMutations
+        inputs.karyotype  // complexKaryotype
+    );
     
     // Calculate expected scores manually for comparison
     const expectedPMScore = calculateExpectedPMScore(
@@ -280,25 +342,33 @@ function runTest(testCase) {
     const expectedPMMolScore = calculateExpectedPMMolScore(
         inputs.age, inputs.cs, inputs.hb, inputs.plt, inputs.blasts, inputs.calr, inputs.asxl1, inputs.uts
     );
+
+    const expectedKMPMScore = calculateExpectedKMPMScore(
+        inputs.age, inputs.cs, inputs.hb, inputs.plt, inputs.blasts, inputs.calr, inputs.asxl1, inputs.uts, inputs.karyotype
+    );
     
     // Check if results match expected values
     const pmRiskMatch = pmResult.riskCategory === expected.pmRisk;
     const pmMolRiskMatch = pmMolResult.riskCategory === expected.pmMolRisk;
-    const testPassed = pmRiskMatch && pmMolRiskMatch;
+    const kmPmRiskMatch = kmPmResult.riskCategory === expected.kmPmRisk;
+    const testPassed = pmRiskMatch && pmMolRiskMatch && kmPmRiskMatch;
     
     return {
         testCase,
         actual: {
             pm: pmResult,
             pmMol: pmMolResult,
+            kmPm: kmPmResult,
             pmScore: expectedPMScore,
-            pmMolScore: expectedPMMolScore
+            pmMolScore: expectedPMMolScore,
+            kmPmScore: expectedKMPMScore
         },
         expected,
         passed: testPassed,
         details: {
             pmRiskMatch,
-            pmMolRiskMatch
+            pmMolRiskMatch,
+            kmPmRiskMatch
         }
     };
 }
@@ -333,7 +403,7 @@ function runAllTests() {
 
 // Function to print test results to console
 function printTestResults() {
-    console.log('🧪 MYSEC-PM & MYSEC-mPM Calculator Test Suite');
+    console.log('🧪 MYSEC-PM, MYSEC-mPM & MYSEC-kmPM Calculator Test Suite');
     console.log('=' .repeat(60));
     
     const testResults = runAllTests();
@@ -347,9 +417,13 @@ function printTestResults() {
             console.log('  Expected vs Actual:');
             console.log(`    MYSEC-PM Risk: "${result.expected.pmRisk}" vs "${result.actual.pm.riskCategory}"`);
             console.log(`    MYSEC-mPM Risk: "${result.expected.pmMolRisk}" vs "${result.actual.pmMol.riskCategory}"`);
+            console.log(`    MYSEC-kmPM Risk: "${result.expected.kmPmRisk}" vs "${result.actual.kmPm.riskCategory}"`);
         }
-        
-        console.log(`  Scores: PM=${result.actual.pmScore.toFixed(2)}, PM-Mol=${result.actual.pmMolScore.toFixed(2)}`);
+
+        const pmScore = isNaN(result.actual.pmScore) ? 'NaN' : result.actual.pmScore.toFixed(2);
+        const pmMolScore = isNaN(result.actual.pmMolScore) ? 'NaN' : result.actual.pmMolScore.toFixed(2);
+        const kmPmScore = isNaN(result.actual.kmPmScore) ? 'NaN' : result.actual.kmPmScore.toFixed(2);
+        console.log(`  Scores: PM=${pmScore}, PM-Mol=${pmMolScore}, kmPM=${kmPmScore}`);
     });
     
     console.log('\n' + '=' .repeat(60));
@@ -376,7 +450,8 @@ if (typeof module !== 'undefined' && module.exports) {
         runAllTests,
         printTestResults,
         calculateExpectedPMScore,
-        calculateExpectedPMMolScore
+        calculateExpectedPMMolScore,
+        calculateExpectedKMPMScore
     };
 }
 
